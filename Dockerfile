@@ -9,7 +9,6 @@ ENV DOCKER_VERION 1.12.5
 RUN wget https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERION}.tgz
 RUN tar -zxvf docker-${DOCKER_VERION}.tgz
 RUN cp docker/docker /usr/bin/
-RUN dockerd &
 RUN rm -rf /opt/docker*
 
 # Add kubectl client
@@ -21,8 +20,11 @@ RUN mv kubectl /usr/bin/
 RUN apt-get update
 
 # Add python virtualenv and libs
-RUN apt-get install -y python-pip python-dev libxml2-dev libxslt1-dev zlib1g-dev
+RUN apt-get install -y python-pip python-dev libxml2-dev libxslt1-dev zlib1g-dev libyaml-dev libpython2.7-dev
 RUN pip install virtualenv
+
+# Install aws cli
+RUN pip install --upgrade awscli
 
 # node.js
 RUN apt-get install -y npm nodejs-legacy
@@ -35,4 +37,3 @@ RUN apt-get install -y junit
 RUN apt-get install -y bc
 
 ENTRYPOINT ["jenkins-slave"]
-
